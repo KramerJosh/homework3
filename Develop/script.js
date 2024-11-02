@@ -1,32 +1,83 @@
 // Get a reference to the #add-employees-btn element
 const addEmployeesBtn = document.querySelector('#add-employees-btn');
-employeesArray = [];
 
 // Collect employee data
 const collectEmployees = function () {
   // TODO: Get user input to create and return an array of employee objects
   //
-  //Use Prompt, have while loop that exits when user hits cancel, setting promptOpen to 0
-  var promptOpen = 1; 
-  let firstName = prompt("Enter First Name:");
-  let lastName = prompt("Enter Last Name:")
-  let salary = prompt("Enter Salary:")
-  employeesArray.push([firstName, lastName, salary]);
+  //Initialize the array in the function, but outside of the loop
+  //Will clear the array each time button is pressed
+  employeesArray = [];
+  
+  // starts a loop that continues as long as the user doesn't hit cancel on the confirmation
+  var promptOpen = true;
+  while (promptOpen) {
+  
+  // gather employee data    
+  var firstName = prompt("Enter First Name:");
+  var lastName = prompt("Enter Last Name:");
+  var salary = prompt("Enter Salary:");
+
+  //check if salary is a number, if not return 0
+  if (isNaN(salary)) {
+    salary = 0;
+  }
+  //if salary is a number, convert it to type num
+  else if (!isNaN(salary)) {
+    salary = Number(salary);
+  }
+  
+  // create a JSON object with each employees data
+  const employee = {
+    firstName : firstName,
+    lastName : lastName,
+    salary : salary
+  }
+
+  // add each employee object to the array
+  employeesArray.push(employee);
+
+  //confirm gives a pop up - cancel will return a false value, assigned to promptOpen
+  promptOpen = confirm('Would you like to add another employee?');
+
+  }
 
   console.log("You entered:", firstName);  
   console.log("You entered:", lastName); 
   console.log("You entered:", salary); 
-  console.log(employeesArray);
+  console.log('employeesArray', employeesArray);
+  // console.log(employeesArray[0])
+  // console.log(employeesArray[1])
+  // console.log(employeesArray[2])
+
+return employeesArray;
 };
+
+
+
+
 
 // Display the average salary
 const displayAverageSalary = function (employeesArray) {
-  // TODO: Calculate and display the average salary
-};
+  let totalSalary = 0;
+  const numEmployees = employeesArray.length;
+
+  for (const employee of employeesArray) {
+    totalSalary += employee.salary;
+  }
+
+  // Calculate the average salary
+  const averageSalary = totalSalary / numEmployees;
+  console.log(`The average employee salary between our ${numEmployees} employee(s) is $${averageSalary.toFixed(2)}`)
+}
 
 // Select a random employee
 const getRandomEmployee = function (employeesArray) {
-  // TODO: Select and display a random employee
+  const randomEmployee =
+    employeesArray[Math.floor(Math.random() * employeesArray.length)];
+  console.log(
+    `Congratulations to ${randomEmployee.firstName} ${randomEmployee.lastName}, our random drawing winner!`
+  );
 };
 
 /*
